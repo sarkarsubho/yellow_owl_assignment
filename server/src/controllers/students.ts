@@ -6,6 +6,14 @@ export const createStudent = async (
   res: express.Response
 ) => {
   try {
+    let isEmailExist = StudentModel.find({ email: req.body.email });
+
+    if (isEmailExist) {
+      return res
+        .status(401)
+        .send({ error: true, message: "email already exist." });
+    }
+
     let studentDetails = req.body;
     const newStudent = await new StudentModel(studentDetails)
       .save()
@@ -68,6 +76,24 @@ export const updateStudent = async (
     ).then((data) => data.toObject());
 
     return res.status(200).send({ success: true, student: updatedStudent });
+  } catch (error) {
+    console.log(error);
+
+    res.status(400).send({ error: true, message: "Something went wrong..." });
+  }
+};
+export const searchStudent = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const query = req.query.s;
+
+    const searchedStudent = await StudentModel.find({
+      name: { $regex: query, $options: "i" },
+    })
+
+    return res.status(200).send({ success: true, student: searchedStudent });
   } catch (error) {
     console.log(error);
 
