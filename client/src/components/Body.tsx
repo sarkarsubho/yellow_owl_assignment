@@ -55,31 +55,17 @@ const Body = () => {
     console.log(searchInput);
   };
 
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   addPost(formData);
-  //   console.log(formData);
-  // };
-
-  useEffect(()=>{
-    const toastId = toast.loading("Searching student...");
+  useEffect(() => {
     axios
       .get(`${server}/search?s=${searchInput}`)
       .then(({ data }) => {
         console.log(data.students);
         setStudents(data.students);
-        toast.success("Done.", {
-          id: toastId,
-        });
       })
       .catch((er: Error) => {
         console.log(er);
-        toast.error("Something went wrong...", {
-          id: toastId,
-        });
       });
-
-  },[searchInput])
+  }, [searchInput]);
 
   const handleSubmit = (type: ModalType) => {
     console.log(type, formData);
