@@ -29,6 +29,8 @@ import NameCard from "./NameCard";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
+const server = import.meta.env.VITE_BACKEND;
+
 const Body = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -65,7 +67,7 @@ const Body = () => {
     const toastId = toast.loading("submitting student data...");
     if (type === ModalType.Create) {
       axios
-        .post("postStudent", formData)
+        .post(`${server}/postStudent`, formData)
         .then((res) => {
           // { success: true, student: newStudent }
           toast.success("Student added Successfully..", {
@@ -88,7 +90,7 @@ const Body = () => {
         });
     } else {
       axios
-        .patch(`updateStudent/${formData._id}`, formData)
+        .patch(`${server}/updateStudent/${formData._id}`, formData)
         .then((res) => {
           // { success: true, student: newStudent }
           let updatedStudent = res.data.student;
@@ -121,7 +123,7 @@ const Body = () => {
     console.log("delete _id", id);
     const toastId = toast.loading("Deleting student...");
     axios
-      .delete(`deleteStudent/${id}`)
+      .delete(`${server}/deleteStudent/${id}`)
       .then((res) => {
         let deletedStudent = res.data.student;
 
@@ -140,19 +142,25 @@ const Body = () => {
   };
 
   useEffect(() => {
+    const toastId = toast.loading("Getting student...");
     axios
-      .get("getStudent")
+      .get(`${server}/getStudent`)
       .then(({ data }) => {
         console.log(data.students);
         setStudents(data.students);
+        toast.success("Done.", {
+          id: toastId,
+        });
       })
       .catch((er: Error) => {
         console.log(er);
-        toast.error("Something went wrong...");
+        toast.error("Something went wrong...", {
+          id: toastId,
+        });
       });
   }, []);
   return (
-    <Box bg={"#E5E7EB"} height={"90vh"} >
+    <Box bg={"#E5E7EB"} height={"90vh"}>
       <Toaster position="bottom-center" reverseOrder={true} />
       <VStack h={"90vh"} p={5}>
         <HStack
@@ -190,7 +198,6 @@ const Body = () => {
             "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;"
           }
           borderRadius={"8px"}
-          
         >
           <Table variant="simple">
             <Thead bg={"#F9FAFB"} padding={"10px"} textAlign={"center"}>
@@ -210,7 +217,7 @@ const Body = () => {
                 <Th></Th>
               </Tr>
             </Thead>
-            <Tbody bg={"#FFFFFF"} m={"10px"} >
+            <Tbody bg={"#FFFFFF"} m={"10px"}>
               {students.length > 0 &&
                 students.map((student) => (
                   <Tr

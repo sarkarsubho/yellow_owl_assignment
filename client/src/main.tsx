@@ -5,7 +5,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 
-axios.defaults.baseURL = `$${import.meta.env.VITE_BACKEND}`;
+// axios.defaults.baseURL = `${import.meta.env.VITE_BACKEND}`;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
