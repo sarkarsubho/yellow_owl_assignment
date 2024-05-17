@@ -33,8 +33,8 @@ const server = import.meta.env.VITE_BACKEND;
 
 const Body = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [students, setStudents] = useState<Student[]>([]);
+  const [searchInput, setSearchInput] = useState<string>("");
 
   const [formData, setFormData] = useState<Student>({
     name: "",
@@ -50,17 +50,36 @@ const Body = () => {
     });
   };
 
-  // const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setFormData((prev) => {
-  //     return { ...prev, category: e.target.value };
-  //   });
-  // };
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    console.log(searchInput);
+  };
 
   // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   //   e.preventDefault();
   //   addPost(formData);
   //   console.log(formData);
   // };
+
+  useEffect(()=>{
+    const toastId = toast.loading("Searching student...");
+    axios
+      .get(`${server}/search?s=${searchInput}`)
+      .then(({ data }) => {
+        console.log(data.students);
+        setStudents(data.students);
+        toast.success("Done.", {
+          id: toastId,
+        });
+      })
+      .catch((er: Error) => {
+        console.log(er);
+        toast.error("Something went wrong...", {
+          id: toastId,
+        });
+      });
+
+  },[searchInput])
 
   const handleSubmit = (type: ModalType) => {
     console.log(type, formData);
@@ -180,7 +199,8 @@ const Body = () => {
               type="text"
               placeholder="Search..."
               bgColor={"white"}
-              // onChange={(e) => " handleSearchChange(e)"}
+              value={searchInput}
+              onChange={handleSearchChange}
             />
 
             <CreateUpdateModal

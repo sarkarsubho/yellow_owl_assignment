@@ -120,7 +120,7 @@ const CreateUpdateModal = ({
         motionPreset="slideInBottom"
       >
         <Box padding={"200px"}>
-          <ModalOverlay bg="#9FA4AB" />
+          <ModalOverlay  />
           <ModalContent p={"3rem"}>
             <ModalHeader>
               {" "}
