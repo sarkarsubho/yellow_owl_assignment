@@ -81,6 +81,7 @@ const Body = () => {
           });
         })
         .catch((er: Error) => {
+          console.log(er);
           toast.error("Something went Wrong on post data...", {
             id: toastId,
           });
@@ -108,6 +109,7 @@ const Body = () => {
           });
         })
         .catch((er: Error) => {
+          console.log(er);
           toast.error("Something went Wrong on update data...", {
             id: toastId,
           });
@@ -130,6 +132,7 @@ const Body = () => {
         });
       })
       .catch((er: Error) => {
+        console.log(er);
         toast.error("Something went Wrong on update data...", {
           id: toastId,
         });
@@ -144,6 +147,7 @@ const Body = () => {
         setStudents(data.students);
       })
       .catch((er: Error) => {
+        console.log(er);
         toast.error("Something went wrong...");
       });
   }, []);
