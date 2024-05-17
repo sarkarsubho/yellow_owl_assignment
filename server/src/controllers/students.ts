@@ -93,7 +93,7 @@ export const searchStudent = async (
       name: { $regex: query, $options: "i" },
     })
 
-    return res.status(200).send({ success: true, student: searchedStudent });
+    return res.status(200).send({ success: true, students: searchedStudent });
   } catch (error) {
     console.log(error);
 
