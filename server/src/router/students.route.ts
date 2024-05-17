@@ -8,5 +8,6 @@ export default (router: express.Router) => {
   router.get("/api/v1/getStudent", getStudents);
   router.post("/api/v1/postStudent", createStudent);
   router.patch("/api/v1/updateStudent/:id", updateStudent);
-  router.delete("/api/v1/search", searchStudent);
+  router.delete("/api/v1/deleteStudent/:id", deleteStudent);
+  router.get("/api/v1/search", searchStudent);
 };
