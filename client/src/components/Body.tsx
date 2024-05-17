@@ -152,7 +152,7 @@ const Body = () => {
       });
   }, []);
   return (
-    <Box bg={"#E5E7EB"} height={"90vh"} boxSizing={"border-box"}>
+    <Box bg={"#E5E7EB"} height={"90vh"} >
       <Toaster position="bottom-center" reverseOrder={true} />
       <VStack h={"90vh"} p={5}>
         <HStack
