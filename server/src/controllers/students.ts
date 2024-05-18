@@ -6,12 +6,13 @@ export const createStudent = async (
   res: express.Response
 ) => {
   try {
-    let isEmailExist = StudentModel.find({ email: req.body.email });
+    let isEmailExist =await StudentModel.findOne({ email: req.body.email });
+
 
     if (isEmailExist) {
       return res
         .status(401)
-        .send({ error: true, message: "email already exist." });
+        .send({ error: true, message: "email already exist."  });
     }
 
     let studentDetails = req.body;

@@ -38,6 +38,17 @@ const CreateUpdateModal = ({
 }: ModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const validateEmail = (email: string) => {
+    // Basic email validation regex
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+  const validateName = (name: string) => {
+    // validation regex for checking number
+
+    return /\d/.test(name);
+  };
+
   const handleCancel = (): void => {
     onClose();
     setFormData({
@@ -81,6 +92,10 @@ const CreateUpdateModal = ({
     if (isEmpty) {
       // console.log("error");
       toast.error("Every field should be filled....");
+    } else if (validateEmail(currentData.email)) {
+      toast.error("please enter a valid email....");
+    } else if (validateName(currentData.name)) {
+      toast.error("please enter a valid name....");
     } else {
       onClose();
       handleSubmit(type);
@@ -120,76 +135,82 @@ const CreateUpdateModal = ({
         motionPreset="slideInBottom"
       >
         <Box padding={"200px"}>
-          <ModalOverlay  />
+          <ModalOverlay />
           <ModalContent p={"3rem"}>
-            <ModalHeader>
-              {" "}
-              {type === ModalType.Create ? "Add New" : "Edit"} Student
-            </ModalHeader>
+            <form>
+              <ModalHeader>
+                {" "}
+                {type === ModalType.Create ? "Add New" : "Edit"} Student
+              </ModalHeader>
 
-            <ModalBody>
-              <VStack gap={"20px"}>
-                <Input
-                  placeholder="Name"
-                  name="name"
-                  value={name}
-                  onChange={changeState}
-                  autoComplete="name"
-                />
-                <Input
-                  placeholder="Email"
-                  name="email"
-                  value={email}
-                  onChange={changeState}
-                  autoComplete="email"
-                />
-                <Input
-                  placeholder="Phone"
-                  name="phone"
-                  value={phone}
-                  onChange={changeState}
-                  autoComplete="phone"
-                />
-                <Input
-                  placeholder="Enroll Number"
-                  name="enrollNo"
-                  value={enrollNo}
-                  onChange={changeState}
-                />
-                <Input
-                  placeholder="Date of Admission"
-                  name="dateOfAdmission"
-                  value={dateOfAdmission}
-                  onChange={changeState}
-                />
-              </VStack>
-            </ModalBody>
-            {/* <ModalFooter> */}
-            <Flex
-              direction={"column"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              gap={"15px"}
-              p={"10px 0"}
-            >
-              <Button
-                colorScheme="green"
-                bg={"#22C55E"}
-                width={"60%"}
-                onClick={validateSubmit}
+              <ModalBody>
+                <VStack gap={"20px"}>
+                  <Input
+                    placeholder="Name"
+                    type="text"
+                    name="name"
+                    value={name}
+                    onChange={changeState}
+                    autoComplete="name"
+                  />
+                  <Input
+                    placeholder="Email"
+                    type="email"
+                    name="email"
+                    value={email}
+                    onChange={changeState}
+                    autoComplete="email"
+                  />
+                  <Input
+                    placeholder="Phone"
+                    name="phone"
+                    type="tel"
+                    value={phone}
+                    onChange={changeState}
+                    autoComplete="phone"
+                  />
+                  <Input
+                    placeholder="Enroll Number"
+                    type="number"
+                    name="enrollNo"
+                    value={enrollNo}
+                    onChange={changeState}
+                  />
+                  <Input
+                    placeholder="Date of Admission"
+                    name="dateOfAdmission"
+                    value={dateOfAdmission}
+                    onChange={changeState}
+                  />
+                </VStack>
+              </ModalBody>
+              {/* <ModalFooter> */}
+              <Flex
+                direction={"column"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                gap={"15px"}
+                p={"10px 0"}
               >
-                {type === ModalType.Create ? " Submit" : "Update"}
-              </Button>
-              <Button
-                colorScheme="red"
-                bg={"#C55D22"}
-                width={"60%"}
-                onClick={handleCancel}
-              >
-                Cancel
-              </Button>
-            </Flex>
-            {/* </ModalFooter> */}
+                <Button
+                  colorScheme="green"
+                  bg={"#22C55E"}
+                  width={"60%"}
+                  onClick={validateSubmit}
+                >
+                  {type === ModalType.Create ? " Submit" : "Update"}
+                </Button>
+                <Button
+                  colorScheme="red"
+                  bg={"#C55D22"}
+                  width={"60%"}
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </Button>
+              </Flex>
+              {/* </ModalFooter> */}
+            </form>
           </ModalContent>
         </Box>
       </Modal>
