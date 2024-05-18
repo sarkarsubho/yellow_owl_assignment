@@ -184,7 +184,7 @@ const Body = () => {
           <Flex maxW={"70%"} gap={"10px"}>
             <Input
               type="text"
-              placeholder="Search by name..."
+              placeholder="Search..."
               bgColor={"white"}
               value={searchInput}
               onChange={handleSearchChange}
