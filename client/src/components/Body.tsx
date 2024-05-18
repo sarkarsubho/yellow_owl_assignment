@@ -62,7 +62,7 @@ const Body = () => {
         console.log(data.students);
         setStudents(data.students);
       })
-      .catch((er: Error) => {
+      .catch((er: any) => {
         console.log(er);
       });
   }, [searchInput]);
@@ -87,9 +87,9 @@ const Body = () => {
             dateOfAdmission: "",
           });
         })
-        .catch((er: Error) => {
+        .catch((er: any) => {
           console.log(er);
-          toast.error("Something went Wrong on post data...", {
+          toast.error(er.response.data.message, {
             id: toastId,
           });
         });
@@ -115,9 +115,9 @@ const Body = () => {
             id: toastId,
           });
         })
-        .catch((er: Error) => {
+        .catch((er: any) => {
           console.log(er);
-          toast.error("Something went Wrong on update data...", {
+          toast.error(er.response.data.message, {
             id: toastId,
           });
         });
@@ -138,9 +138,9 @@ const Body = () => {
           id: toastId,
         });
       })
-      .catch((er: Error) => {
+      .catch((er: any) => {
         console.log(er);
-        toast.error("Something went Wrong on update data...", {
+        toast.error(er.response.data.message, {
           id: toastId,
         });
       });
@@ -157,9 +157,9 @@ const Body = () => {
           id: toastId,
         });
       })
-      .catch((er: Error) => {
+      .catch((er: any) => {
         console.log(er);
-        toast.error("Something went wrong...", {
+        toast.error(er.response.data.message, {
           id: toastId,
         });
       });
