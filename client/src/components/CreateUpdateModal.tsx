@@ -89,12 +89,15 @@ const CreateUpdateModal = ({
       }
     });
 
+
     if (isEmpty) {
       // console.log("error");
       toast.error("Every field should be filled....");
-    } else if (validateEmail(currentData.email)) {
+    }
+     else if (!validateEmail(currentData.email)) {
       toast.error("please enter a valid email....");
-    } else if (validateName(currentData.name)) {
+    } 
+    else if (validateName(currentData.name)) {
       toast.error("please enter a valid name....");
     } else {
       onClose();

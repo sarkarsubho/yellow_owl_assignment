@@ -35,6 +35,7 @@ const Body = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [students, setStudents] = useState<Student[]>([]);
   const [searchInput, setSearchInput] = useState<string>("");
+  const [studentId, setStudentId] = useState<string>("");
 
   const [formData, setFormData] = useState<Student>({
     name: "",
@@ -124,11 +125,11 @@ const Body = () => {
     }
   };
 
-  const handleDelete = (id: any) => {
-    console.log("delete _id", id);
+  const handleDelete = () => {
+    // console.log("delete _id",studentId);
     const toastId = toast.loading("Deleting student...");
     axios
-      .delete(`${server}/deleteStudent/${id}`)
+      .delete(`${server}/deleteStudent/${studentId}`)
       .then((res) => {
         let deletedStudent = res.data.student;
 
@@ -248,71 +249,36 @@ const Body = () => {
                     </Hide>
 
                     <Td textAlign={"center"}>
-                      <>
-                        <Flex justifyContent={"start"} gap={"10px"}>
-                          <Box onClick={() => setFormData(student)}>
-                            <CreateUpdateModal
-                              type={ModalType.Update}
-                              {...formData}
-                              changeState={handleChange}
-                              setFormData={setFormData}
-                              handleSubmit={handleSubmit}
-                            />
-                          </Box>
-                          <Box
-                            onClick={onOpen}
-                            _hover={{
-                              background: "local",
-                              border: "none",
-                            }}
-                            cursor={"pointer"}
-                          >
-                            <DeleteIcon color="red" />
-                          </Box>
-                        </Flex>
-                        <Modal
-                          isCentered
-                          onClose={onClose}
-                          isOpen={isOpen}
-                          motionPreset="slideInBottom"
+                      <Flex justifyContent={"start"} gap={"10px"}>
+                        <Box onClick={() => setFormData(student)}>
+                          <CreateUpdateModal
+                            type={ModalType.Update}
+                            {...formData}
+                            changeState={handleChange}
+                            setFormData={setFormData}
+                            handleSubmit={handleSubmit}
+                          />
+                        </Box>
+                        <Box
+                          onClick={() => {
+                            setStudentId(String(student._id));
+                            onOpen();
+                          }}
+                          _hover={{
+                            background: "local",
+                            border: "none",
+                          }}
+                          cursor={"pointer"}
                         >
-                          <Box padding={"200px"}>
-                            <ModalOverlay bg="#9FA4AB" />
-                            <ModalContent p={"3rem"}>
-                              <ModalBody fontWeight={600} fontSize={"18px"}>
-                                Are you sure to delete this Student ?
-                              </ModalBody>
-
-                              <Flex
-                                justifyContent={"center"}
-                                alignItems={"center"}
-                                gap={"15px"}
-                                p={"10px 0"}
-                              >
-                                <Button
-                                  colorScheme="green"
-                                  bg={"#22C55E"}
-                                  width={"60%"}
-                                  onClick={() => {
-                                    handleDelete(student._id);
-                                    onClose();
-                                  }}
-                                >
-                                  Yes
-                                </Button>
-                                <Button
-                                  colorScheme="red"
-                                  bg={"#C55D22"}
-                                  width={"60%"}
-                                  onClick={onClose}
-                                >
-                                  No
-                                </Button>
-                              </Flex>
-                            </ModalContent>
-                          </Box>
-                        </Modal>
-                      </>
+                          <DeleteIcon color="red" />
+                        </Box>
+                      </Flex>
+                      <DeleteModal
+                        student={student}
+                        handleDelete={handleDelete}
+                        isOpen={isOpen}
+                        onClose={onClose}
+                      />
                     </Td>
                   </Tr>
                 ))}
@@ -321,6 +287,64 @@ const Body = () => {
         </TableContainer>
       </VStack>
     </Box>
+  );
+};
+
+interface deleteModalProps {
+  student: Student;
+  handleDelete: any;
+  onClose: any;
+  isOpen: any;
+}
+
+const DeleteModal = ({
+  handleDelete,
+  onClose,
+  isOpen,
+}: deleteModalProps) => {
+  return (
+    <Modal
+      isCentered
+      onClose={onClose}
+      isOpen={isOpen}
+      motionPreset="slideInBottom"
+    >
+      <Box padding={"200px"}>
+        <ModalOverlay />
+        <ModalContent p={"3rem"}>
+          <ModalBody fontWeight={600} fontSize={"18px"}>
+            Are you sure to delete this Student ?
+          </ModalBody>
+
+          <Flex
+            justifyContent={"center"}
+            alignItems={"center"}
+            gap={"15px"}
+            p={"10px 0"}
+          >
+            <Button
+              colorScheme="green"
+              bg={"#22C55E"}
+              width={"60%"}
+              onClick={() => {
+                handleDelete();
+                onClose();
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              colorScheme="red"
+              bg={"#C55D22"}
+              width={"60%"}
+              onClick={onClose}
+            >
+              No
+            </Button>
+          </Flex>
+        </ModalContent>
+      </Box>
+    </Modal>
   );
 };
 
