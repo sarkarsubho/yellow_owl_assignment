@@ -297,11 +297,7 @@ interface deleteModalProps {
   isOpen: any;
 }
 
-const DeleteModal = ({
-  handleDelete,
-  onClose,
-  isOpen,
-}: deleteModalProps) => {
+const DeleteModal = ({ handleDelete, onClose, isOpen }: deleteModalProps) => {
   return (
     <Modal
       isCentered
@@ -310,7 +306,7 @@ const DeleteModal = ({
       motionPreset="slideInBottom"
     >
       <Box padding={"200px"}>
-        <ModalOverlay />
+        <ModalOverlay bg={"#1313132c"} />
         <ModalContent p={"3rem"}>
           <ModalBody fontWeight={600} fontSize={"18px"}>
             Are you sure to delete this Student ?

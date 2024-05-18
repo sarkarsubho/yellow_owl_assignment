@@ -212,7 +212,6 @@ const CreateUpdateModal = ({
                   Cancel
                 </Button>
               </Flex>
-              {/* </ModalFooter> */}
             </form>
           </ModalContent>
         </Box>
