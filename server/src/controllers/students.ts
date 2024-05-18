@@ -6,13 +6,12 @@ export const createStudent = async (
   res: express.Response
 ) => {
   try {
-    let isEmailExist =await StudentModel.findOne({ email: req.body.email });
-
+    let isEmailExist = await StudentModel.findOne({ email: req.body.email });
 
     if (isEmailExist) {
       return res
         .status(401)
-        .send({ error: true, message: "email already exist."  });
+        .send({ error: true, message: "email already exist." });
     }
 
     let studentDetails = req.body;
@@ -91,8 +90,13 @@ export const searchStudent = async (
     const query = req.query.s;
 
     const searchedStudent = await StudentModel.find({
-      name: { $regex: query, $options: "i" },
-    })
+      $or: [
+        { name: { $regex: query, $options: "i" } },
+        { email: { $regex: query, $options: "i" } },
+        { phone: { $regex: query, $options: "i" } },
+        { enrollNo: { $regex: query, $options: "i" } },
+      ],
+    });
 
     return res.status(200).send({ success: true, students: searchedStudent });
   } catch (error) {
